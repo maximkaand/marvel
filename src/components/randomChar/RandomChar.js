@@ -1,4 +1,4 @@
-import {useState, useEffect, memo } from 'react';
+import {useState, useEffect, memo, useCallback } from 'react';
 import Spinner from '../spinner/spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
 import useMarvelService from '../../services/MarvelService';
@@ -20,12 +20,12 @@ const RandomChar = memo(() => {
     // eslint-disable-next-line
     }, []);
 
-    const updateChar = () => {
+    const updateChar = useCallback(() => {
         clearError();
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
         getCharacter(id)
             .then(onCharLoaded);
-    }
+    }, [])
 
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = (loading) ? <Spinner/> : null;
